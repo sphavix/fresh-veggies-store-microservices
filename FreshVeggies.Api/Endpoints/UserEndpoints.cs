@@ -29,7 +29,7 @@ namespace FreshVeggies.Api.Endpoints
                 var response = await _userService.GetUserAddressesAsync(principal.GetUserId());
                 return Results.Ok(response);
             })
-            .WithName("CreateAddress");
+            .WithName("GetAddress");
 
             endpointsGroup.MapPost("/changepassword", async (IUserService _userService, int userId, ChangePasswordDto model, ClaimsPrincipal principal) =>
             {
@@ -39,7 +39,7 @@ namespace FreshVeggies.Api.Endpoints
             .WithName("ChangePassword")
             .Produces<ApiResult>();
 
-            return endpointsGroup;
+            return app;
         }
     }
 }

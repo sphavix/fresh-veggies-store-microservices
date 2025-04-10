@@ -1,4 +1,5 @@
 ﻿using FreshVeggies.Api.Services.Abstracts;
+using FreshVeggies.Shared.Dtos.ProductDtos;
 
 namespace FreshVeggies.Api.Endpoints
 {
@@ -10,7 +11,9 @@ namespace FreshVeggies.Api.Endpoints
             {
                 var products = await productService.GetProductsAsync();
                 return Results.Ok(products);
-            }).WithName("Products");
+            })
+            .Produces<ProductDto[]>()
+            .WithName("Products");
 
             return app;
         }

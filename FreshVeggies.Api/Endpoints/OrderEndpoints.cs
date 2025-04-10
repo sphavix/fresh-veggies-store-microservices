@@ -14,7 +14,7 @@ namespace FreshVeggies.Api.Endpoints
                 .RequireAuthorization()
                 .WithTags("Orders");
 
-            endpointGroup.MapPost("/create-order", async (CreateOrderDto model, IOrderService _orderService, ClaimsPrincipal principal) =>
+            endpointGroup.MapPost("/createorder", async (CreateOrderDto model, IOrderService _orderService, ClaimsPrincipal principal) =>
             {
                 return Results.Ok(await _orderService.ProcessOrderAsync(model, principal.GetUserId()));
             })
@@ -50,7 +50,7 @@ namespace FreshVeggies.Api.Endpoints
             .WithName("GetUserOrdersItems");
 
 
-            return endpointGroup;
+            return app;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace FreshVeggies.Api.Endpoints
             .Produces<ApiResult<LoggedInUser>>()
             .WithName("Login");
 
-            return endpountGroup;
+            return app;
         }
     }
 }
