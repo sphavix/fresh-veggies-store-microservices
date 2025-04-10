@@ -1,5 +1,24 @@
 ﻿@page "/"
+@using FreshVeggies.Client.Apis
+@using FreshVeggies.Shared.Dtos.ProductDtos
+
+@inject IProductService _productService
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+<ul>
+    @foreach(var product in _products)
+    {
+        <li>@product.Name</li>
+    }
+</ul>
+
+@code {
+    ProductDto[] _products = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _products = await _productService.GetProductsAsync();
+    }
+}

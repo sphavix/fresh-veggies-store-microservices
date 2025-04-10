@@ -1,0 +1,62 @@
+﻿
+<div class="tabbar text-white">
+    <div class="tabbar-item d-flex flex-column text-app-primary">
+        <i class="icon bx bx-home"></i>
+        <span class="title text-app-primary">Home</span>
+    </div>
+
+    <div class="tabbar-item d-flex flex-column text-app-secondary">
+        <i class="icon bx bx-cart"></i>
+        <span class="title">Cart</span>
+    </div>
+
+    <div class="tabbar-item d-flex flex-column text-app-secondary">
+        <i class="icon bx bx-objects-horizontal-left"></i>
+        <span class="title">Order</span>
+    </div>
+
+    <div class="tabbar-item d-flex flex-column text-app-secondary">
+        <i class="icon bx bx-user-circle"></i>
+        <span class="title">Profile</span>
+    </div>
+
+    <div class="tabbar-item d-flex flex-column text-app-secondary">
+        <i class="icon bx bx-help-circle"></i>
+        <span class="title">Help</span>
+    </div>
+</div>
+
+@code {
+
+}
+
+
+<style>
+    .tabbar {
+        height: var(--tabbar-height);
+        position: fixed;
+        z-index: 10;
+        bottom: 0;
+        display: flex;
+        justify-content: space-around;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 8px 0;
+        align-items: center;
+        background-color: white;
+        box-shadow: 0,0, 2px gray;
+    }
+
+    .tabbar-item {
+        justify-content: center;
+        align-items: center;
+    }
+    .icon {
+
+    }
+    .title {
+        font-size: 12px;
+    }
+
+</style>
