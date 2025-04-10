@@ -5,13 +5,21 @@ using FreshVeggies.Shared.Dtos;
 using FreshVeggies.Shared.Dtos.AuthDtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace FreshVeggies.Api.Services
 {
-    public class AuthService(ApplicationDbContext context, IPasswordHasher<User> passwordHasher) : IAuthService
+    public class AuthService(
+        ApplicationDbContext context, 
+        IPasswordHasher<User> passwordHasher,
+        IConfiguration configuration) : IAuthService
     {
         private readonly ApplicationDbContext _context = context;
         private readonly IPasswordHasher<User> _passwordHasher = passwordHasher;
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task<ApiResult> RegisterAsync(RegisterDto registerDto)
         {
@@ -57,11 +65,39 @@ namespace FreshVeggies.Api.Services
             }
 
             // Generate JWT token
-            var jwtToken = "JWT token here"; // Implement JWT token generation logic
+            var jwtToken = GenerateJwtToken(user); // Implement JWT token generation logic
 
             var loggedInUser = new LoggedInUser(user.Id, user.FirstName, user.LastName, user.Email, jwtToken);
 
             return ApiResult<LoggedInUser>.Success(loggedInUser);
+        }
+
+        private string GenerateJwtToken(User user)
+        {
+            // Implement JWT token generation logic here
+            Claim[] claims = [
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.MobilePhone, user.Cellphone ?? string.Empty)
+
+                ];
+            var key = _configuration.GetValue<string>("JWT:Secret");
+            var expiryMinutes = _configuration.GetValue<int>("JWT:Expiration");
+            var securityKey = Encoding.UTF8.GetBytes(key);
+            var symmetricKey = new SymmetricSecurityKey(securityKey);
+
+            var credentials = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _configuration["JWT:Issuer"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(expiryMinutes),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
         }
     }
 }
