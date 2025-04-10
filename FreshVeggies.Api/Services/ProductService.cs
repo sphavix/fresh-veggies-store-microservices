@@ -10,7 +10,7 @@ namespace FreshVeggies.Api.Services
         private readonly ApplicationDbContext _context = context;
 
 
-        public async Task<ProductDto[]> GetProductAsync()
+        public async Task<ProductDto[]> GetProductsAsync()
         {
             return await _context.Products
                 .AsNoTracking()

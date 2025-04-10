@@ -1,4 +1,5 @@
 using FreshVeggies.Api.Domain.Models;
+using FreshVeggies.Api.Endpoints;
 using FreshVeggies.Api.Persistence;
 using FreshVeggies.Api.Services;
 using FreshVeggies.Api.Services.Abstracts;
@@ -9,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -21,6 +20,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
 
 var app = builder.Build();
 
@@ -34,6 +34,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapProductEndpoints()
+    .MapAuthEndpoints()
+    .MapOrderEndpoints()
+    .MapUserEndpoints();
 
 app.Run();

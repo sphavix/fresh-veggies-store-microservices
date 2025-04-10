@@ -67,27 +67,31 @@ namespace FreshVeggies.Api.Services
             }
         }
 
-        public async Task<AddressDto[]> GetUserOrdersAsync(int userId, int startIndex, int pageSize)
+        public async Task<OrderDto[]> GetUserOrdersAsync(int userId, int startIndex, int pageSize)
         {
-            var addresses = await _context.Addresses
+            var addresses = await _context.Orders
                 .AsNoTracking()
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.Id)
                 .Skip(startIndex)
                 .Take(pageSize)
-                .Select(x => new AddressDto
+                .Select(x => new OrderDto
                 {
+                    AddressName = x.AddressName,
+                    FullAddress = x.FullAddress,
                     Id = x.Id,
-                    Address = x.FullAddress,
-                    IsDefault = x.IsDefault,
-                    Name = x.AddressName
+                    OrderDate = x.OrderDate,
+                    TotalAmount = x.TotalAmount,
+                    TotalItems = x.TotalItems,
+                    Remarks = x.Remarks,
+                    Status = x.Status,
                 }).ToArrayAsync();
 
             return addresses;
 
         }
 
-        public async Task<ApiResult<OrderItemDto[]>> GetUserOrderItems(int orderId, int userId)
+        public async Task<ApiResult<OrderItemDto[]>> GetUserOrderItemsAsync(int orderId, int userId)
         {
             var order = await _context.Orders
                 .AsNoTracking()

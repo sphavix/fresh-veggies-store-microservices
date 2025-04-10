@@ -4,6 +4,6 @@ namespace FreshVeggies.Api.Services.Abstracts
 {
     public interface IProductService
     {
-        Task<ProductDto[]> GetProductAsync();
+        Task<ProductDto[]> GetProductsAsync();
     }
 }

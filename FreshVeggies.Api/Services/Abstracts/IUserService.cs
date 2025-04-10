@@ -6,8 +6,8 @@ namespace FreshVeggies.Api.Services.Abstracts
 {
     public interface IUserService
     {
-        Task<ApiResult> ChangePassword(int userId, ChangePasswordDto changePasswordDto);
-        Task<ApiResult> CreateAddress(AddressDto addressDto, int userId);
+        Task<ApiResult> ChangePasswordAsync(int userId, ChangePasswordDto changePasswordDto);
+        Task<ApiResult> CreateAddressAsync(AddressDto addressDto, int userId);
         Task<AddressDto[]> GetUserAddressesAsync(int userId);
     }
 }

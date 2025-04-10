@@ -17,7 +17,7 @@ namespace FreshVeggies.Api.Services
         private readonly ApplicationDbContext _context = context;
         private readonly IPasswordHasher<User> _passwordHasher = passwordHasher;
 
-        public async Task<ApiResult> CreateAddress(AddressDto addressDto, int userId)
+        public async Task<ApiResult> CreateAddressAsync(AddressDto addressDto, int userId)
         {
             Address? address = null;
             if (addressDto.Id == 0)
@@ -88,7 +88,7 @@ namespace FreshVeggies.Api.Services
         }
 
         // add a change password method
-        public async Task<ApiResult> ChangePassword(int userId, ChangePasswordDto changePasswordDto)
+        public async Task<ApiResult> ChangePasswordAsync(int userId, ChangePasswordDto changePasswordDto)
         {
             try
             {
